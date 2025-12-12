@@ -8,13 +8,19 @@ $db_name = $_ENV['DB_NAME'] ?: 'pms';
 $db_user = $_ENV['DB_USER'] ?: 'root';
 $db_pass = $_ENV['DB_PASS'];
 
-try {
-    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$dsn = "mysql:host=$db_host;dbname=$db_name;charset=utf8mb4";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
 
-   echo "<script>console.log('Connected to the database $db_name successfully!');</script>";
+
+try {
+    $pdo = new PDO($dsn, $db_user, $db_pass, $options);
+    echo "<script>console.log('Connected to the database $db_name successfully!');</script>";
 
 } catch (PDOException $e) {
     die("Could not connect to the database $db_name :" . $e->getMessage());
 }
-?>
+
