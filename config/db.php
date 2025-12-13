@@ -18,8 +18,6 @@ $options = [
 
 try {
     $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-    echo "<script>console.log('Connected to the database $db_name successfully!');</script>";
-
 } catch (PDOException $e) {
     die("Could not connect to the database $db_name :" . $e->getMessage());
 }
