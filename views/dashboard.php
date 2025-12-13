@@ -4,8 +4,9 @@ require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../controllers/AuthController.php';
 
 // Redirect to login if not authenticated
+// Redirect to login if not authenticated
 if (!AuthController::checkAuth()) {
-    header("Location: /views/login.php");
+    header("Location: login");
     exit;
 }
 
