@@ -4,7 +4,6 @@ require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../controllers/AuthController.php';
 
 // Redirect to login if not authenticated
-// Redirect to login if not authenticated
 if (!AuthController::checkAuth()) {
     header("Location: login");
     exit;
@@ -41,7 +40,7 @@ $role = $_SESSION['role'];
                 <a href="/views/exit_requests/create.php" class="block py-2 px-6 hover:bg-gray-700">Create Exit Request</a>
             <?php endif; ?>
 
-            <a href="/controllers/AuthController.php?action=logout" class="block py-2 px-6 hover:bg-gray-700 mt-6">Logout</a>
+             <a href="logout" class="block py-2 px-6 hover:bg-gray-700 mt-6">Logout</a>
         </nav>
     </aside>
 
