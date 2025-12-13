@@ -1,4 +1,3 @@
-schema.sql
 
 -- ---------------------------
 -- Student Property Management - Clean Schema
@@ -32,7 +31,7 @@ CREATE TABLE IF NOT EXISTS students (
 CREATE TABLE IF NOT EXISTS property_categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) UNIQUE NOT NULL,
-    requires_detail BOOLEAN DEFAULT FALSE
+    requires_detail  tinyint(1) DEFAULT 0
 );
 
 -- 4) student_properties
@@ -99,9 +98,9 @@ INSERT IGNORE INTO users (username, password, role) VALUES
 
 -- 10. Seed property categories
 INSERT IGNORE INTO property_categories (name, requires_detail) VALUES
-('Laptop', TRUE),
-('Shirt', FALSE),
-('Shoes', FALSE),
-('Blanket', FALSE),
-('Jacket', FALSE),
-('Other', TRUE),
+('Laptop', 1),
+('Shirt', 0),
+('Shoes', 0),
+('Blanket', 0),
+('Jacket', 0),
+('Other',1);

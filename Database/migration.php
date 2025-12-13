@@ -1,10 +1,10 @@
 
 <?php
 
-include DIR . '/../config/db.php';
+include __DIR__. '/../config/db.php';
 
 // Load SQL from database/schema.sql
-$sql = file_get_contents(DIR . '/schema.sql');
+$sql = file_get_contents(__DIR__ . '/schema.sql');
 
 // if (!$sql) {
 //     die("Could not read schema.sql");
