@@ -22,7 +22,24 @@ $role = $_SESSION['role'];
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
+<?php if (isset($_SESSION['success'])): ?>
+    <div id="toast-success" 
+         class="fixed top-5 right-5 bg-green-600 text-white px-4 py-3 rounded shadow-lg animate-slide-in">
+        <?= htmlspecialchars($_SESSION['success']) ?>
+    </div>
 
+    <script>
+        setTimeout(() => {
+            const toast = document.getElementById('toast-success');
+            if (toast) {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }
+        }, 3000);
+    </script>
+
+    <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
 <!-- Sidebar -->
 <div class="flex h-screen">
     <aside class="w-64 bg-gray-800 text-white flex-shrink-0">
