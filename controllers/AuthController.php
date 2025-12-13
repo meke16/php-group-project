@@ -7,11 +7,6 @@ require_once __DIR__. '/../models/User.php';
 
 class AuthController {
     
-    // Show login page
-    public function showLogin() {
-        require __DIR__. '/../views/login.php';
-    }
-
     // Handle login form submission
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
