@@ -26,6 +26,7 @@ class AuthController {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
+                $_SESSION['success'] = "Logged in successfully!";
 
                 header("Location: dashboard");
                 exit;
