@@ -1,9 +1,10 @@
 <?php
+// /models/Student.php
 require_once 'BaseModel.php';
 
 class Student extends BaseModel {
     // Directory to store uploaded profile photos (must be writable)
-    private $uploadDir = 'public/uploads/';
+    private $uploadDir = 'uploads/';
 
     public function __construct() {
         parent::__construct();
