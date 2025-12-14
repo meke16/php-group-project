@@ -1,12 +1,13 @@
 <?php
-// /models/BaseModel.php (Used by other models)
 
 abstract class BaseModel {
     protected $db;
 
-    public function construct() {
-        // Assume Database class from /config/db.php is accessible
+    public function __construct() {
         require_once dirname(__DIR__) . '/config/db.php';
         $this->db = Database::connect();
+    }
+    public function getDb(): PDO {
+        return $this->db;
     }
 }
