@@ -1,12 +1,8 @@
 <?php
-// database/migration.php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../config/db.php';
+require_once DIR . '/../config/db.php';
 
-// Load SQL from schema (as a string here to keep everything in one file)
 $sql = <<<SQL
--- 1) users table
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
