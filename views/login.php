@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../controllers/AuthController.php';
 
 $auth = new AuthController();
@@ -8,143 +9,107 @@ $auth = new AuthController();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $auth->login();
 }
+
+$rememberedUsername = $_COOKIE['remember_username'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Base Reset */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #07152bff; /* Light, neutral background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+    <title>Login | PMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        /* 1. Login Container */
-        .login-container {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px; /* Constrain width for better focus */
-        }
-        
-        /* 2. Header and Branding */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .header h2 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        .header p {
-            color: #777;
-            font-size: 14px;
-        }
-
-        /* 3. Form Styling */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #444;
-            font-size: 14px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus {
-            border-color: #007bff; /* Primary color focus */
-            outline: none;
-        }
-
-        /* 4. Submission Button */
-        .btn-submit {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff; /* Primary action color */
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.1s;
-        }
-        .btn-submit:hover {
-            background-color: #0056b3;
-        }
-
-        /* 5. Error/Status Messages */
-        .message-box {
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            font-size: 14px;
-            text-align: center;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-    </style>
 </head>
-<body>
-    <div class="login-container">
-        <div class="header">
-            <h2>App Management System</h2>
-            <p>Sign in to your account</p>
+<body class="min-h-screen flex items-center justify-center bg-[#0B1E39] p-4">
+
+<div class="w-full max-w-md bg-white rounded-xl shadow-xl p-8">
+
+    <div class="text-center mb-6">
+        <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center">
+            <i class="fas fa-lock text-blue-600 text-2xl"></i>
+        </div>
+        <h1 class="mt-4 text-2xl font-bold text-gray-700">Sign In</h1>
+        <p class="text-gray-500 text-sm">Access your campus management account</p>
+    </div>
+
+    <!-- Error message -->
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="mb-4 bg-red-100 text-red-700 px-4 py-3 rounded">
+            <i class="fa fa-exclamation-circle"></i>
+            <?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?>
+        </div>
+    <?php endif; ?>
+
+    <form method="POST" class="space-y-5">
+
+        <!-- Username -->
+        <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1">Username</label>
+            <div class="relative">
+                <input
+                    type="text"
+                    name="username"
+                    required
+                    value="<?= htmlspecialchars($rememberedUsername) ?>"
+                    class="w-full pl-10 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                    placeholder="Enter username"
+                >
+                <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
         </div>
 
-        <?php 
-        // Display error message from session if it exists
-        if (isset($_SESSION['error'])): ?>
-            <div class="message-box error">
-                <?php 
-                echo htmlspecialchars($_SESSION['error']); 
-                unset($_SESSION['error']); 
-                ?>
-            </div>
-        <?php endif; ?>
+        <!-- Password -->
+        <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1">Password</label>
+            <div class="relative">
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    class="w-full pl-10 pr-10 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                    placeholder="Enter password"
+                >
+                <i class="fas fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
 
-        <form method="POST">
-            
-            <div class="form-group">
-                <label for="username">Username / Email</label>
-                <input type="text" id="username" name="username" required autocomplete="username">
+                <button type="button" id="togglePassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    <i id="eyeIcon" class="fas fa-eye"></i>
+                </button>
             </div>
-            
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required autocomplete="current-password">
-            </div>
+        </div>
 
-            <button type="submit" class="btn-submit">Sign In</button>
-            
-            <p style="text-align: center; margin-top: 15px; font-size: 13px;">
-                <a href="/forgot-password" style="color: #007bff; text-decoration: none;">Forgot Password?</a>
-            </p>
-        </form>
-    </div>
+        <!-- Submit Button -->
+        <button
+            type="submit"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
+        >
+            Sign In
+        </button>
+
+    </form>
+
+    <p class="text-center text-xs text-gray-500 mt-6">
+        © <?= date('Y') ?> Campus Property Management System
+    </p>
+
+</div>
+
+<script>
+document.getElementById('togglePassword').addEventListener('click', function () {
+    const input = document.getElementById('password');
+    const icon = document.getElementById('eyeIcon');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+});
+</script>
+
 </body>
 </html>
