@@ -5,8 +5,6 @@ require_once 'BaseModel.php';
 class ExitRequest extends BaseModel {
     
     const STATUS_PENDING = 'pending';
-    const STATUS_CHECKED = 'checked';
-    const STATUS_REJECTED = 'rejected';
 
     public function create(int $studentId): int {
         $sql = "INSERT INTO exit_requests (student_id, status, request_date) 
@@ -65,12 +63,4 @@ class ExitRequest extends BaseModel {
     }
     
 
-    public function updateStatus(int $requestId, string $status): bool {
-        if (!in_array($status, [self::STATUS_CHECKED, self::STATUS_REJECTED])) {
-            return false;
-        }
-        $sql = "UPDATE exit_requests SET status = ? WHERE id = ?";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$status, $requestId]);
-    }
-}
+   
