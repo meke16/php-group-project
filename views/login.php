@@ -34,7 +34,6 @@ $rememberedUsername = $_COOKIE['remember_username'] ?? '';
         <p class="text-gray-500 text-sm">Access your campus management account</p>
     </div>
 
-    <!-- Error message -->
     <?php if (isset($_SESSION['error'])): ?>
         <div class="mb-4 bg-red-100 text-red-700 px-4 py-3 rounded">
             <i class="fa fa-exclamation-circle"></i>
@@ -44,7 +43,6 @@ $rememberedUsername = $_COOKIE['remember_username'] ?? '';
 
     <form method="POST" class="space-y-5">
 
-        <!-- Username -->
         <div>
             <label class="block text-sm font-medium text-gray-600 mb-1">Username</label>
             <div class="relative">
@@ -60,7 +58,6 @@ $rememberedUsername = $_COOKIE['remember_username'] ?? '';
             </div>
         </div>
 
-        <!-- Password -->
         <div>
             <label class="block text-sm font-medium text-gray-600 mb-1">Password</label>
             <div class="relative">
@@ -80,7 +77,6 @@ $rememberedUsername = $_COOKIE['remember_username'] ?? '';
             </div>
         </div>
 
-        <!-- Submit Button -->
         <button
             type="submit"
             class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
