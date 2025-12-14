@@ -1,10 +1,9 @@
 <?php
 session_start();
-require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/../controllers/AuthController.php';
+require_once DIR . '/../config/db.php';
+require_once DIR . '/../controllers/AuthController.php';
 
 if (!AuthController::checkAuth()) {
-    // NOTE: Changed to relative path for better routing practice in PHP front controllers
     header("Location: /login");
     exit;
 }
@@ -28,7 +27,6 @@ $user_initial = strtoupper(substr($username, 0, 1));
             theme: {
                 extend: {
                     colors: {
-                        // Using Indigo-600 and Indigo-500 for consistency
                         primary: '#4f46e5',
                         'primary-light': '#6366f1',
                     },
@@ -90,7 +88,6 @@ $user_initial = strtoupper(substr($username, 0, 1));
     </div>
 
     <script>
-        // --- Sidebar Toggle Logic ---
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
@@ -99,21 +96,18 @@ $user_initial = strtoupper(substr($username, 0, 1));
             if (isHidden) {
                 sidebar.classList.remove('-translate-x-full');
                 overlay.classList.remove('hidden');
-                // Prevent background scrolling when sidebar is open
                 document.body.style.overflow = 'hidden';
             } else {
                 sidebar.classList.add('-translate-x-full');
                 overlay.classList.add('hidden');
                 document.body.style.overflow = 'auto';
             }
-        }
+}
 
-        // --- Dark Mode / Theme Toggle Logic ---
         const themeToggleBtn = document.getElementById('theme-toggle');
         const lightIcon = document.getElementById('theme-toggle-light-icon');
         const darkIcon = document.getElementById('theme-toggle-dark-icon');
 
-        // 1. Initial Load: Check localStorage or default to system preference
         const storedTheme = localStorage.getItem('color-theme');
         const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -128,21 +122,17 @@ $user_initial = strtoupper(substr($username, 0, 1));
                 darkIcon.classList.add('hidden');
             }
         }
-        // Apply initial theme
         const isDark = storedTheme === 'dark' || (!storedTheme && systemPrefersDark);
         applyTheme(isDark);
 
 
-        // 2. Event Listener for Toggle
         themeToggleBtn.addEventListener('click', function() {
             const currentThemeIsDark = document.documentElement.classList.contains('dark');
 
             if (currentThemeIsDark) {
-                // Switch to light
                 localStorage.setItem('color-theme', 'light');
                 applyTheme(false);
             } else {
-                // Switch to dark
                 localStorage.setItem('color-theme', 'dark');
                 applyTheme(true);
             }
@@ -150,26 +140,21 @@ $user_initial = strtoupper(substr($username, 0, 1));
     </script>
 
     <style>
-        /* Styling for regular navigation links */
         .nav-link {
             display: flex;
-            /* Added flex to align icon/text */
             align-items: center;
             padding: 0.5rem 1.5rem;
             margin: 0 0.75rem;
             border-radius: 0.5rem;
             color: #d1d5db;
-            /* Gray-300 */
             transition: background-color 0.2s, color 0.2s;
         }
 
         .nav-link:hover {
             background: #374151;
-            /* Gray-700 */
             color: white;
         }
 
-        /* Styling for the interactive content cards */
         .action-card {
             display: block;
             background: white;
@@ -177,7 +162,6 @@ $user_initial = strtoupper(substr($username, 0, 1));
             border-radius: 0.75rem;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
             border-left-width: 0.25rem;
-            /* For colored accent line */
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
@@ -186,10 +170,8 @@ $user_initial = strtoupper(substr($username, 0, 1));
             transform: translateY(-2px);
         }
 
-        /* Dark mode adjustments for cards */
         .dark .action-card {
             background: #1f2937;
-            /* Gray-800 */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
