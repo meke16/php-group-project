@@ -103,3 +103,83 @@ $user_initial = strtoupper(substr($username, 0, 1));
                 document.body.style.overflow = 'auto';
             }
 }
+
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+
+        const storedTheme = localStorage.getItem('color-theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        const applyTheme = (isDark) => {
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                lightIcon.classList.remove('hidden');
+                darkIcon.classList.add('hidden');
+            }
+        }
+        const isDark = storedTheme === 'dark' || (!storedTheme && systemPrefersDark);
+        applyTheme(isDark);
+
+
+        themeToggleBtn.addEventListener('click', function() {
+            const currentThemeIsDark = document.documentElement.classList.contains('dark');
+
+            if (currentThemeIsDark) {
+                localStorage.setItem('color-theme', 'light');
+                applyTheme(false);
+            } else {
+                localStorage.setItem('color-theme', 'dark');
+                applyTheme(true);
+            }
+        });
+    </script>
+
+    <style>
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1.5rem;
+            margin: 0 0.75rem;
+            border-radius: 0.5rem;
+            color: #d1d5db;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .nav-link:hover {
+            background: #374151;
+            color: white;
+        }
+
+        .action-card {
+            display: block;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-left-width: 0.25rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .action-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .dark .action-card {
+            background: #1f2937;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark .action-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+
+</body>
+
+</html>
