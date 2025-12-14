@@ -6,7 +6,7 @@ abstract class BaseModel {
 
     public function construct() {
         // Assume Database class from /config/db.php is accessible
-        require_once dirname(__DIR) . '/config/db.php';
+        require_once dirname(__DIR__) . '/config/db.php';
         $this->db = Database::connect();
     }
 }
