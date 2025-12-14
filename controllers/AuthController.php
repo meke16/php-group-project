@@ -1,13 +1,17 @@
 <?php
-// controllers/AuthController.php
-session_start(); // start session for login
-
-require_once __DIR__. '/../config/db.php';
-require_once __DIR__. '/../models/User.php';
+session_start();
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../models/User.php';
 
 class AuthController {
-    
-    // Handle login form submission
+
+    private $userModel;
+
+    public function __construct() {
+        $pdo = Database::connect(); 
+        $this->userModel = new User($pdo);
+    }
+
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'] ?? '';
@@ -19,15 +23,13 @@ class AuthController {
                 exit;
             }
 
-            $user = User::findByUsername($username);
+            $user = $this->userModel->login($username, $password);
 
-            if ($user && password_verify($password, $user['password'])) {
-                // Successful login
+            if ($user) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['success'] = "Logged in successfully!";
-
                 header("Location: dashboard");
                 exit;
             } else {
@@ -38,19 +40,16 @@ class AuthController {
         }
     }
 
-    // Handle logout
     public function logout() {
         session_destroy();
         header("Location: login");
         exit;
     }
 
-    // Check if user is logged in
     public static function checkAuth() {
         return isset($_SESSION['user_id']);
     }
 
-    // Check if logged-in user has a specific role
     public static function checkRole($role) {
         return isset($_SESSION['role']) && $_SESSION['role'] === $role;
     }

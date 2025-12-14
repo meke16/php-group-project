@@ -4,29 +4,22 @@ require_once __DIR__ . '/../config/db.php';
 class User {
     private $pdo;
 
-    public function __construct($pdo)
-    {
-       $this->pdo = $pdo;
+    public function __construct($pdo) {
+        $this->pdo = $pdo;
     }
 
-
-    // Login: validate username + password
-    public function login($username, $password) {
+    public function findByUsername($username) {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = ?");
         $stmt->execute([$username]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch();
+    }
 
+    // Optional: keep this login helper
+    public function login($username, $password) {
+        $user = $this->findByUsername($username);
         if ($user && password_verify($password, $user['password'])) {
             return $user;
         }
-
         return false;
-    }
-
-    public static function findByUsername($username) {
-        global $pdo;
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
-        $stmt->execute([$username]);
-        return $stmt->fetch();
     }
 }
