@@ -1,19 +1,13 @@
 <?php
-// /models/ExitRequest.php
 
 require_once 'BaseModel.php';
 
 class ExitRequest extends BaseModel {
     
-    // Statuses
     const STATUS_PENDING = 'pending';
     const STATUS_CHECKED = 'checked';
     const STATUS_REJECTED = 'rejected';
 
-    /**
-     * Creates a new exit request entry.
-     * @return int The ID of the new exit_requests record.
-     */
     public function create(int $studentId): int {
         $sql = "INSERT INTO exit_requests (student_id, status, request_date) 
                 VALUES (?, ?, NOW())";
@@ -25,28 +19,39 @@ class ExitRequest extends BaseModel {
         return (int)$this->db->lastInsertId();
     }
     
-    /**
-     * Retrieves all pending requests for the Gate Staff list.
-     * Includes basic student info for the list view.
-     * @return array
-     */
-    public function getPendingRequests(): array {
+    public function getPendingRequests(string $searchQuery = ''): array {
         // Assume a 'students' table with id, student_id, full_name
         $sql = "SELECT er.id, er.request_date, er.status, 
-                s.student_id, s.full_name
+                        s.student_id, s.full_name
                 FROM exit_requests er
                 JOIN students s ON er.student_id = s.id
-                WHERE er.status = ?";
+                WHERE er.status = :status_pending";
+        
+        $params = [':status_pending' => self::STATUS_PENDING];
+
+        // 1. Add search conditions if a query is provided
+        if (!empty($searchQuery)) {
+            $sql .= " AND (
+                CAST(er.id AS CHAR) = :search_exact_id OR
+                s.student_id LIKE :search_id_partial OR
+                s.full_name LIKE :search_name_partial
+            )";
+
+            $params[':search_exact_id'] = $searchQuery;
+            
+            $partialSearch = "%{$searchQuery}%";
+            $params[':search_id_partial'] = $partialSearch;
+            $params[':search_name_partial'] = $partialSearch;
+        }
+
+        $sql .= " ORDER BY er.request_date DESC";
                 
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([self::STATUS_PENDING]);
+        $stmt->execute($params); // Execute with the compiled parameters
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    /**
-     * Finds a request by ID, including student details.
-     * @return array|false
-     */
+
     public function findById(int $id): array|false {
         // Include hostel info for Gate Staff
         $sql = "SELECT er.*, s.student_id, s.full_name, s.department, s.block, s.room
@@ -59,9 +64,7 @@ class ExitRequest extends BaseModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
-    /**
-     * Updates the status of an exit request.
-     */
+
     public function updateStatus(int $requestId, string $status): bool {
         if (!in_array($status, [self::STATUS_CHECKED, self::STATUS_REJECTED])) {
             return false;
