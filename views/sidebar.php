@@ -14,16 +14,12 @@
             </a>
 
             <?php if ($role === 'gate'): ?>
-                <a href="/views/students/create" class="flex items-center py-2 px-6 mx-3 rounded-lg nav-link">
+                <a href="/students" class="flex items-center py-2 px-6 mx-3 rounded-lg nav-link">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                     Register Student
                 </a>
-                <a href="/views/properties/add" class="flex items-center py-2 px-6 mx-3 rounded-lg nav-link">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2h2m0 0h2.5a1 1 0 001-1V5a1 1 0 00-1-1H7a2 2 0 00-2 2v4m0 0h14"></path></svg>
-                    Add Property
-                </a>
-                <a href="/views/exit_requests/pending" class="flex items-center py-2 px-6 mx-3 rounded-lg nav-link">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                 <a href="/pending" class="flex items-center py-2 px-6 mx-3 rounded-lg nav-link">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                     Pending Exits
                 </a>
             <?php elseif ($role === 'dormitory'): ?>
@@ -35,7 +31,7 @@
         </nav>
 
         <div class="p-6 border-t border-gray-700 dark:border-gray-800">
-            <a href="/logout"
+            <a href="logout"
                class="flex items-center justify-center py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3v-4a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                 Logout
