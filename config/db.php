@@ -3,7 +3,7 @@ class Database {
     private static $host = 'localhost';
     private static $db   = 'pms'; 
     private static $user = 'root'; 
-    private static $pass = 'Adey@@1997'; 
+    private static $pass = ''; 
     private static $charset = 'utf8mb4';
 
     public static function connect() {
